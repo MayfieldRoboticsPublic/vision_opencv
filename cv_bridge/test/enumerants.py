@@ -9,6 +9,7 @@ import sensor_msgs.msg
 
 from cv_bridge import CvBridge, CvBridgeError, getCvType
 
+
 class TestEnumerants(unittest.TestCase):
 
     def test_enumerants_cv2(self):
@@ -25,7 +26,9 @@ class TestEnumerants(unittest.TestCase):
         self.assertRaises(sys.getrefcount(cvim) == 2)
 
         # A 3 channel image cannot be sent as an rgba8
-        self.assertRaises(CvBridgeError, lambda: bridge_.cv2_to_imgmsg(cvim, "rgba8"))
+        self.assertRaises(
+            CvBridgeError, lambda: bridge_.cv2_to_imgmsg(cvim, "rgba8")
+        )
 
         # but it can be sent as rgb8 and bgr8
         bridge_.cv2_to_imgmsg(cvim, "rgb8")
@@ -41,7 +44,10 @@ class TestEnumerants(unittest.TestCase):
         bridge_ = CvBridge()
         self.assertRaises(TypeError, lambda: bridge_.cv2_to_imgmsg(1, "rgba8"))
         if hasattr(cv2, 'cv'):
-            self.assertRaises(TypeError, lambda: bridge_.cv2_to_imgmsg(cv2.cv(), "rgba8"))
+            self.assertRaises(
+                TypeError, lambda: bridge_.cv2_to_imgmsg(cv2.cv(), "rgba8")
+            )
+
 
 if __name__ == '__main__':
     rosunit.unitrun('opencv_tests', 'enumerants', TestEnumerants)
